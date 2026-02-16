@@ -199,7 +199,7 @@ export class UserService {
     const user = this.userRepository.create({
       email: googleUserData.email,
       googleId: googleUserData.googleId,
-      role: 'user',
+      role: 'learner',
       profile: {
         firstName: googleUserData.firstName,
         lastName: googleUserData.lastName,
