@@ -7,6 +7,7 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProfileModule } from './modules/profile/profile.module';
+import { AiModule } from './modules/ai/ai.module';
 
 /**
  * Root Application Module
@@ -22,6 +23,7 @@ import { ProfileModule } from './modules/profile/profile.module';
     UserModule,
     AuthModule,
     ProfileModule,
+    AiModule,
   ],
   controllers: [AppController],
   providers: [AppService],
