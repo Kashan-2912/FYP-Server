@@ -19,6 +19,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { Roles } from 'src/common/decorators/roles.decorator';
 import { ApiResponse } from 'src/common/dto/api-response.dto';
 import { Response } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 /**
  * Authentication Controller
@@ -26,7 +27,10 @@ import { Response } from 'express';
  */
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
   /**
    * Register a new user
@@ -94,7 +98,14 @@ export class AuthController {
 
     try {
       const result = await this.authService.handleGoogleCallback(code);
-      return res.json(ApiResponse.success('Google OAuth successful', result));
+
+      const frontendUrl = this.configService.get<string>('APP_URL');
+
+      // return res.json(ApiResponse.success('Google OAuth successful', result));
+
+      res.redirect(
+        `${frontendUrl}/auth/google/success?token=${result.token.accessToken}&role=${result.user.role}`,
+      );
     } catch (error) {
       return res
         .status(400)
